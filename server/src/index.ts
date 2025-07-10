@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import zxcvbn from "zxcvbn";
 import dotenv from "dotenv";
+import cors from "cors";
 // import { registerSchema } from "./validators/auth";
 
 dotenv.config();
@@ -12,6 +13,12 @@ const app = express();
 const client = new PrismaClient();
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["POST", "GET", "PUT", "PATCH", "DELETE"],
+  }),
+);
 
 app.get("/", (_req, res) => {
   res.send("<h1>Welcome To BlogIT</h1>");
@@ -66,18 +73,28 @@ async function checkUsernameAndEmailReuse(
   res: Response,
   next: NextFunction,
 ) {
-  const { username, email } = req.body;
-  const userWithUsername = await client.user.findFirst({ where: { username } });
-  if (userWithUsername) {
-    res.status(400).json({ message: "Username is already being used" });
-    return;
+  try {
+    const { username, email } = req.body;
+    const userWithSameDetails = await client.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
+    });
+    if (userWithSameDetails) {
+      res
+        .status(400)
+        .json({ message: "Email or Username is already being used" });
+      return;
+    }
+    //   const userWithEmail = await client.user.findFirst({ where: { email } });
+    //   if (userWithEmail) {
+    //     res.status(400).json({ message: "Email is already being used" });
+    //     return;
+    //   }
+    next();
+  } catch (error) {
+    res.status(500).json({ message: "Database error occurred." });
   }
-  const userWithEmail = await client.user.findFirst({ where: { email } });
-  if (userWithEmail) {
-    res.status(400).json({ message: "Email is already being used" });
-    return;
-  }
-  next();
 }
 
 app.post(
@@ -105,8 +122,9 @@ app.post(
           password: hashedPassword,
         },
       });
-      res.status(201).json({ message: "User Crated Successfully" });
+      res.status(201).json({ message: "User Created Successfully" });
     } catch (e) {
+      console.error(e);
       res
         .status(500)
         .json({ message: "Something Went Wrong! Try again Later!" });
