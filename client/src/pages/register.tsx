@@ -5,11 +5,14 @@ import {
   Typography,
   Stack,
   Paper,
+  Alert,
 } from "@mui/material";
 import Header from "../components/header2";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../api/axios";
 
 interface User {
   firstName: string;
@@ -26,18 +29,36 @@ const Register: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [formError, setFormError] = useState("");
+  const navigate = useNavigate();
 
   const { isPending, mutate } = useMutation({
     mutationKey: ["signup-user"],
     mutationFn: async (newUser: User) => {
-      const response = await axios.post(
-        "http://localhost:4000/auth/register",
-        newUser,
-      );
+      const response = await axiosInstance.post("/auth/register", newUser);
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        setFormError(message || "Signup failed");
+      } else {
+        setFormError("Something went Wrong! Try again Later!");
+      }
+    },
+    onSuccess: () => {
+      console.log("Registration Successful!");
+      navigate("/login");
     },
   });
 
-  function handleSignUp() {
+  function handleSignUp(e: React.FormEvent) {
+    e.preventDefault();
+    setFormError("");
+    if (password != confirmPassword) {
+      setFormError("The Password and Confirm password must match");
+      return;
+    }
     const newUser = { firstName, lastName, email, username, password };
     mutate(newUser);
   }
@@ -58,6 +79,7 @@ const Register: React.FC = () => {
             Create Your Account Today
           </Typography>
           <form>
+            {formError && <Alert severity="error">{formError}</Alert>}
             <TextField
               sx={{ width: "60%" }}
               size="small"

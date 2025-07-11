@@ -5,10 +5,60 @@ import {
   Paper,
   Stack,
   Typography,
+  Alert,
 } from "@mui/material";
 import Header from "../components/header2";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import axiosInstance from "../api/axios";
+import useUser from "../store/userStore";
+
+interface UserDetails {
+  identifier: string;
+  password: string;
+}
 
 const Login: React.FC = () => {
+  // const { setUser } = useUser();
+  const navigate = useNavigate();
+  const { setUser } = useUser();
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState("");
+
+  const { isPending, mutate } = useMutation({
+    mutationKey: ["login-user"],
+    mutationFn: async (userDetails: UserDetails) => {
+      const response = await axiosInstance.post("/auth/login", userDetails);
+      console.log(response.data);
+      return response.data;
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        setFormError(message || "Login failed");
+      } else {
+        setFormError("Something went Wrong! Try again Later!");
+      }
+    },
+    onSuccess: (data) => {
+      setUser(data);
+      navigate("/blogList");
+    },
+  });
+
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setFormError("");
+    // if (password != confirmPassword) {
+    //   setFormError("The Password and Confirm password must match")
+    //   return;
+    // }
+    mutate({ identifier, password });
+  }
+
   return (
     <Stack bgcolor="#DDDFD9">
       <Header />
@@ -25,13 +75,15 @@ const Login: React.FC = () => {
             Login Into Your Account
           </Typography>
           <form>
-            <TextField
+            {formError && <Alert severity="error">{formError}</Alert>}
+
+            {/* <TextField
               sx={{ width: "60%" }}
               margin="normal"
               label="Name"
               variant="outlined"
               required
-            />
+            /> */}
             <TextField
               sx={{ width: "60%" }}
               margin="normal"
@@ -39,6 +91,8 @@ const Login: React.FC = () => {
               type="email"
               variant="outlined"
               required
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
 
             <TextField
@@ -46,12 +100,16 @@ const Login: React.FC = () => {
               margin="normal"
               label="Password"
               variant="outlined"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               rows={4}
               required
             />
             <Button
               type="submit"
               variant="contained"
+              loading={isPending}
+              onClick={handleLogin}
               sx={{
                 m: "normal",
                 mt: 3,
