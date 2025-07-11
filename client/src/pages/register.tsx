@@ -7,7 +7,7 @@ import {
   Paper,
   Alert,
 } from "@mui/material";
-import Header from "../components/header2";
+import Header from "../components/header";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
