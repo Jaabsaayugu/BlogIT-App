@@ -18,7 +18,7 @@ const Header: React.FC = () => {
     { label: "Blogs", path: "/blogList" },
     { label: "New Blog", path: "/createBlog" },
     { label: "Profile", path: "/profile" },
-    { label: "Logout", path: "/login" }, 
+    { label: "Logout", path: "/login" },
   ];
 
   return (
@@ -35,16 +35,25 @@ const Header: React.FC = () => {
           🖊️BlogIT
         </Typography>
 
-       
         {user ? (
-          <Stack direction="row" spacing={3} alignItems="center" component="nav">
+          <Stack
+            direction="row"
+            spacing={3}
+            alignItems="center"
+            component="nav"
+          >
             {navLinks.map((link) => (
-              <Link key={link.label + link.path} to={link.path} style={{ textDecoration: "none" }}>
+              <Link
+                key={link.label + link.path}
+                to={link.path}
+                style={{ textDecoration: "none" }}
+              >
                 <Typography variant="body1" fontWeight={600} color="secondary">
                   {link.label}
                 </Typography>
               </Link>
             ))}
+
             <Typography variant="body1" fontWeight="600" color="secondary">
               Welcome {user.firstName}
             </Typography>
@@ -54,7 +63,6 @@ const Header: React.FC = () => {
             </Avatar>
           </Stack>
         ) : (
-          
           <Box>
             <Button
               variant="outlined"

@@ -1,20 +1,8 @@
 import React from "react";
-import Header from "../components/header";
-import {
-  Stack,
-  Box,
-  Typography,
-  Button,
-  Grid,
-  Divider,
-  Table,
-  Paper,
-} from "@mui/material";
-import { blue, red } from "@mui/material/colors";
+import { Stack, Box, Typography, Button, Paper } from "@mui/material";
 const Home: React.FC = () => {
   return (
     <Stack sx={{ backgroundColor: "#DDDFF0" }}>
-      <Header />
       <Box
         p={4}
         m={2}

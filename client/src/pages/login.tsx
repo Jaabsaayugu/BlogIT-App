@@ -7,7 +7,6 @@ import {
   Typography,
   Alert,
 } from "@mui/material";
-import Header from "../components/header";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -61,7 +60,6 @@ const Login: React.FC = () => {
 
   return (
     <Stack bgcolor="#DDDFD9">
-      <Header />
       <Paper sx={{ m: "auto", width: "75%", backgroundColor: "white", p: 3 }}>
         <Box
           display="flex"
@@ -77,13 +75,6 @@ const Login: React.FC = () => {
           <form>
             {formError && <Alert severity="error">{formError}</Alert>}
 
-            {/* <TextField
-              sx={{ width: "60%" }}
-              margin="normal"
-              label="Name"
-              variant="outlined"
-              required
-            /> */}
             <TextField
               sx={{ width: "60%" }}
               margin="normal"

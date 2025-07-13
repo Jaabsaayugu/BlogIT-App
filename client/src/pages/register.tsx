@@ -7,7 +7,6 @@ import {
   Paper,
   Alert,
 } from "@mui/material";
-import Header from "../components/header";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
@@ -65,7 +64,6 @@ const Register: React.FC = () => {
 
   return (
     <Stack bgcolor="#DDDFD9">
-      <Header />
       <Paper sx={{ m: "auto", width: "75%", backgroundColor: "white", p: 3 }}>
         <Box
           display="flex"

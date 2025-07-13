@@ -17,20 +17,20 @@ model User {
   isDeleted  Boolean  @default(false)
   lastUpdate DateTime @updatedAt @map("last_update")
   dateJoined DateTime @default(now()) @map("date_joined")
-  // blogs     Blog[]
+  blogs     Blog[]
 
   @@map("users")
 }
 
-// model Blog {
-  // id          String   @id @default(uuid())
-  // featuredImg String
-  // title       String
-  // synopsis    String
-  // content     String
-  // createdAt   DateTime @default(now())
-  // updatedAt   DateTime @updatedAt
-  // isDeleted   Boolean  @default(false)
-  // userId      Int
-  // user        User     @relation(fields: [userId], references: [id])
-// }
+model Blog {
+  id          String   @id @default(uuid())
+  title       String
+  synopsis    String
+  content     String
+  imageUrl  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isDeleted   Boolean  @default(false)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
