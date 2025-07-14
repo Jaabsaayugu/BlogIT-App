@@ -13,7 +13,6 @@ import {
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import { Link } from "react-router-dom";
-import { MdDateRange, MdAccessTime } from "react-icons/md";
 
 interface Blog {
   id: string;

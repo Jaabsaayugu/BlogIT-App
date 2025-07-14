@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import axios from "../api/axios";
 import useUser from "../store/userStore";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Profile: React.FC = () => {
   const { user, setUser, logoutUser } = useUser();
