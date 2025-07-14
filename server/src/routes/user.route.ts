@@ -7,7 +7,7 @@ import { verifyToken } from "../middleware/verifyToken";
 const router = Router();
 const prisma = new PrismaClient();
 
-router.patch("/user", verifyToken, async (req, res): Promise<void> => {
+router.patch("/", verifyToken, async (req, res): Promise<void> => {
   const { firstName, lastName, username, email } = req.body;
 
   try {
@@ -21,7 +21,7 @@ router.patch("/user", verifyToken, async (req, res): Promise<void> => {
   }
 });
 
-router.patch("/user/password", verifyToken, async (req, res): Promise<void> => {
+router.patch("/password", verifyToken, async (req, res): Promise<void> => {
   const { currentPassword, newPassword } = req.body;
 
   if (!req.user) {

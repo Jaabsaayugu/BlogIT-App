@@ -20,7 +20,6 @@ interface UserDetails {
 }
 
 const Login: React.FC = () => {
-  // const { setUser } = useUser();
   const navigate = useNavigate();
   const { setUser } = useUser();
   const [identifier, setIdentifier] = useState("");
@@ -43,6 +42,7 @@ const Login: React.FC = () => {
       }
     },
     onSuccess: (data) => {
+      localStorage.setItem("token", data.token);
       setUser(data);
       navigate("/blogList");
     },
@@ -51,10 +51,7 @@ const Login: React.FC = () => {
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setFormError("");
-    // if (password != confirmPassword) {
-    //   setFormError("The Password and Confirm password must match")
-    //   return;
-    // }
+
     mutate({ identifier, password });
   }
 

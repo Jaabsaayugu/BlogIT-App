@@ -1,5 +1,6 @@
 import {
   Grid,
+  Box,
   Typography,
   Avatar,
   Card,
@@ -33,14 +34,32 @@ export default function BlogList() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/blogs")
-      .then((res) => setBlogs(res.data))
-      .catch((err) => console.error("Failed to fetch blogs:", err));
+    async function fetchBlogs() {
+      try {
+        const res = await axios.get("/blogs");
+        setBlogs(res.data);
+      } catch (err) {
+        console.error("Failed to fetch blogs:", err);
+      }
+    }
+
+    fetchBlogs();
   }, []);
+
+  // const uploadImage = (files: FileList) => {
+  //   console.log(files[0]);
+  // };
 
   return (
     <Container sx={{ mt: 6 }}>
+      {/* <input
+        type="file"
+        onChange={(e) => {
+          if (e.target.files) {
+            uploadImage(e.target.files);
+          }
+        }}
+      /> */}
       <Typography variant="h4" fontWeight="bold" gutterBottom>
         Recent Blog Posts
       </Typography>
@@ -51,7 +70,13 @@ export default function BlogList() {
             blog.user.lastName[0].toUpperCase();
 
           return (
-            <Grid item xs={12} sm={6} md={4} key={blog.id}>
+            <Box
+              key={blog.id}
+              sx={{
+                width: { xs: "100%", sm: "48%", md: "30%" },
+                mb: 4,
+              }}
+            >
               <Card
                 sx={{
                   height: "100%",
@@ -75,7 +100,7 @@ export default function BlogList() {
                       : blog.synopsis}
                   </Typography>
                   <Stack direction="row" spacing={2} alignItems="center" mt={2}>
-                    <Avatar>{initials}</Avatar>
+                    <Avatar sx={{ bgcolor: "indigo" }}>{initials}</Avatar>
                     <Typography variant="body2">
                       {blog.user.firstName} {blog.user.lastName}
                     </Typography>
@@ -88,110 +113,38 @@ export default function BlogList() {
                     color="gray"
                   >
                     <Typography
-                      variant="caption"
+                      variant="body2"
+                      color="secondary"
+                      fontWeight={800}
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
-                      <MdDateRange size={14} />
+                      <Typography>📆</Typography>
                       {new Date(blog.createdAt).toLocaleDateString()}
                     </Typography>
                     <Typography
-                      variant="caption"
+                      variant="body2"
+                      color="secondary"
+                      fontWeight={800}
                       sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                     >
-                      <MdAccessTime size={14} />
+                      <Typography>⏰</Typography>
                       {getReadingTime(blog.synopsis)}
                     </Typography>
                   </Stack>
                   <Button
-                    variant="outlined"
+                    variant="text"
                     sx={{ mt: 2 }}
-                    fullWidth
                     component={Link}
                     to={`/blogs/${blog.id}`}
                   >
-                    Read More
+                    Read More ↗️
                   </Button>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           );
         })}
       </Grid>
     </Container>
   );
 }
-
-// import {
-//   Grid,
-//   Typography,
-//   Avatar,
-//   Card,
-//   CardContent,
-//   CardMedia,
-//   Stack,
-//   Button,
-//   Box,
-// } from "@mui/material";
-// import { useEffect, useState } from "react";
-// import axios from "../api/axios";
-// import { Link } from "react-router-dom";
-
-// interface Blog {
-//   id: string;
-//   title: string;
-//   synopsis: string;
-//   imageUrl: string;
-//   user: { firstName: string; lastName: string };
-// }
-
-//  function BlogList() {
-//   const [blogs, setBlogs] = useState<Blog[]>([]);
-
-//   useEffect(() => {
-//     axios.get("http://localhost:4000/api/blogs").then((res) => setBlogs(res.data));
-//   }, []);
-
-//   return (
-//     <>
-//     <Typography variant="h5" p={3}  fontWeight="bold" color="secondary">Recent Blog Posts</Typography>
-//     <Grid container spacing={3} justifyContent="center" padding={4}>
-//       {blogs.map((blog) => {
-//         const initials =
-//           blog.user.firstName[0].toUpperCase() +
-//           blog.user.lastName[0].toUpperCase();
-//         return (
-//           <Box  key={blog.id}>
-//             <Card sx={{ maxWidth: 345 }}>
-//               <CardMedia
-//                 component="img"
-//                 height="180"
-//                 image={blog.imageUrl}
-//                 alt={blog.title}
-//               />
-//               <CardContent>
-//                 <Typography variant="h5">{blog.title}</Typography>
-//                 <Typography color="text.secondary">{blog.synopsis}</Typography>
-//                 <Stack direction="row" alignItems="center" spacing={1} mt={2}>
-//                   <Avatar>{initials}</Avatar>
-//                   <Typography>
-//                     {blog.user.firstName} {blog.user.lastName}
-//                   </Typography>
-//                 </Stack>
-//                 <Button
-//                   variant="outlined"
-//                   sx={{ mt: 1 }}
-//                   component={Link}
-//                   to={`/blogs/${blog.id}`}
-//                 >
-//                   Read More
-//                 </Button>
-//               </CardContent>
-//             </Card>
-//           </Box>
-//         );
-//       })}
-//     </Grid>
-//     </>
-//   );
-// }
-// export default BlogList

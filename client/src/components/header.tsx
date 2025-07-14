@@ -18,7 +18,6 @@ const Header: React.FC = () => {
     { label: "Blogs", path: "/blogList" },
     { label: "New Blog", path: "/createBlog" },
     { label: "Profile", path: "/profile" },
-    { label: "Logout", path: "/login" },
   ];
 
   return (
@@ -53,14 +52,15 @@ const Header: React.FC = () => {
                 </Typography>
               </Link>
             ))}
-
-            <Typography variant="body1" fontWeight="600" color="secondary">
-              Welcome {user.firstName}
-            </Typography>
-            <Avatar sx={{ bgcolor: "indigo" }}>
-              {user.firstName[0].toUpperCase()}
-              {user.lastName[0].toUpperCase()}
-            </Avatar>
+            <Box bgcolor="white" p={1} borderRadius={4}>
+              <Typography variant="body1" fontWeight="600" color="secondary">
+                Welcome {user.firstName}
+              </Typography>
+              <Avatar sx={{ bgcolor: "indigo" }}>
+                {(user?.firstName?.[0] || "J").toUpperCase()}
+                {(user?.lastName?.[0] || "A").toUpperCase()}
+              </Avatar>
+            </Box>
           </Stack>
         ) : (
           <Box>

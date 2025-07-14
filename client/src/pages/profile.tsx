@@ -7,11 +7,12 @@ import {
   TextField,
   Stack,
   Button,
+  CardMedia,
   Divider,
 } from "@mui/material";
 import axios from "../api/axios";
 import useUser from "../store/userStore";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 
 const Profile: React.FC = () => {
   const { user, setUser, logoutUser } = useUser();
@@ -96,6 +97,65 @@ const Profile: React.FC = () => {
         >
           Your Profile
         </Typography>
+
+        <Divider sx={{ my: 2 }} />
+
+        <Typography variant="h4" color="secondary">
+          Your Blogs
+        </Typography>
+        {blogs.map((blog: any) => (
+          <Stack display="flex" flexDirection="row">
+            <Paper
+              key={blog.id}
+              elevation={6}
+              component={Container}
+              sx={{
+                p: 2,
+                m: 1,
+                alignItems: "center",
+                borderRadius: 5,
+                bgcolor: "beige",
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{
+                  border: 2,
+                  color: "secondary",
+                  borderRadius: 8,
+                  p: 1,
+                  m: 2,
+                  width: { xs: "100%", md: 500, sm: 500 },
+                  alignContent: "center",
+                  alignItems: "center",
+                }}
+                height="180"
+                image={blog.imageUrl}
+                alt={blog.title}
+              />
+              <Typography variant="h6">{blog.title}</Typography>
+              <Typography>{blog.synopsis}</Typography>
+              <Stack direction="row" spacing={2} mt={1}>
+                <Button
+                  variant="contained"
+                  sx={{ ml: 3 }}
+                  onClick={() => navigate(`/blogs/${blog.id}/edit`)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  sx={{ ml: 4 }}
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleDelete(blog.id)}
+                >
+                  Delete
+                </Button>
+              </Stack>
+            </Paper>
+          </Stack>
+        ))}
+
         <Divider
           sx={{
             marginTop: "1rem",
@@ -105,93 +165,102 @@ const Profile: React.FC = () => {
             margin: "1.5rem auto",
           }}
         />
+
         <Paper
-          elevation={4}
-          sx={{ p: 4, mt: 4, boxShadow: 16, borderRadius: 8 }}
+          elevation={6}
+          component={Container}
+          sx={{ p: 2, m: 1, borderRadius: 5, bgcolor: "beige" }}
         >
-          <Typography variant="h6" fontWeight={600} color="secondary">
+          <Typography variant="h4" fontWeight={600} color="secondary">
             Update Details
           </Typography>
-          <Stack spacing={2} mb={3}>
+          <Box
+            display="flex"
+            p={3}
+            justifyContent="space-around"
+            alignItems="center"
+            gap={4}
+            mb={3}
+          >
             <TextField
               label="First Name"
+              size="small"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              fullWidth
             />
             <TextField
               label="Last Name"
+              size="small"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              fullWidth
             />
+          </Box>
+
+          <Box
+            display="flex"
+            p={3}
+            justifyContent="space-around"
+            gap={4}
+            mb={3}
+          >
             <TextField
               label="Username"
+              size="small"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              fullWidth
             />
             <TextField
               label="Email"
+              size="small"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              fullWidth
             />
-            <Button onClick={handleUserUpdate} variant="contained">
-              Update Info
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 2 }} />
-
-          <Typography variant="h6">Change Password</Typography>
-          <Stack spacing={2} mb={3}>
-            <TextField
-              label="Current Password"
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              label="New Password"
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              fullWidth
-            />
-            <Button onClick={handlePasswordUpdate} variant="outlined">
-              Change Password
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 2 }} />
-
-          <Typography variant="h6">Your Blogs</Typography>
-          {blogs.map((blog: any) => (
-            <Paper key={blog.id} sx={{ p: 2, my: 2 }}>
-              <Typography variant="h6">{blog.title}</Typography>
-              <Typography>{blog.synopsis}</Typography>
-              <Stack direction="row" spacing={2} mt={1}>
-                <Button
-                  variant="contained"
-                  onClick={() => navigate(`/blogs/${blog.id}/edit`)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="error"
-                  onClick={() => handleDelete(blog.id)}
-                >
-                  Delete
-                </Button>
-              </Stack>
-            </Paper>
-          ))}
-
+          </Box>
           <Button
-            variant="text"
+            sx={{ m: "auto" }}
+            size="small"
+            onClick={handleUserUpdate}
+            variant="contained"
+          >
+            Update Info
+          </Button>
+        </Paper>
+        <Divider sx={{ my: 2, p: 4 }} />
+
+        <Typography variant="h4" fontWeight={800} color="secondary" p={4}>
+          Change Password
+        </Typography>
+        <Stack spacing={2} mb={3} alignItems="center">
+          <TextField
+            label="Current Password"
+            type="password"
+            size="small"
+            sx={{ width: { xs: "100%", md: 500, sm: 500 } }}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+          <TextField
+            label="New Password"
+            type="password"
+            size="small"
+            sx={{ width: { xs: "100%", md: 500, sm: 500 } }}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <Button
+            sx={{ m: "auto", p: 2, width: 0.25 }}
+            size="small"
+            onClick={handlePasswordUpdate}
+            variant="contained"
+          >
+            Change Password
+          </Button>
+        </Stack>
+
+        <Paper sx={{ m: 3, mr: 1 }}>
+          <Button
+            variant="contained"
+            sx={{ m: 3, mr: 1 }}
             color="secondary"
             onClick={() => {
               logoutUser();

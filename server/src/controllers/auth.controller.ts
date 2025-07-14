@@ -48,7 +48,7 @@ export const loginUser = async (req: Request, res: Response) => {
       ...userDetails
     } = user;
     const token = jwt.sign(userDetails, process.env.JWT_SECRET!);
-    res.cookie("authToken", token).json(userDetails);
+    res.cookie("authToken", token).json({ ...userDetails, token });
   } catch (e) {
     res.status(500).json({ message: "Bad request" });
   }

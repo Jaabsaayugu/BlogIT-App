@@ -2,38 +2,85 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Container, Typography, Divider } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Divider,
+  Box,
+  CardMedia,
+  CircularProgress,
+} from "@mui/material";
 import axios from "../api/axios";
 
 interface Blog {
   title: string;
   content: string;
+  imageUrl: string;
   user: { firstName: string; lastName: string };
 }
 
 export default function BlogDetail() {
   const { id } = useParams();
   const [blog, setBlog] = useState<Blog | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/api/blogs/${id}`)
-      .then((res) => setBlog(res.data))
-      .catch(() => setBlog(null));
+    async function fetchBlog() {
+      try {
+        const res = await axios.get(`/blogs/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setBlog(res.data);
+      } catch (err) {
+        console.error("Failed to fetch blog:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchBlog();
   }, [id]);
 
-  if (!blog) return <Typography>Blog not found</Typography>;
+  if (loading)
+    return (
+      <Box display="flex" justifyContent="center" mt={6}>
+        <CircularProgress />
+      </Box>
+    );
+
+  if (!blog) return <Typography textAlign="center">Blog not found</Typography>;
 
   return (
     <Container sx={{ py: 4 }}>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" fontWeight="bold" gutterBottom>
         {blog.title}
       </Typography>
-      <Typography variant="subtitle1" gutterBottom>
+
+      <Typography variant="subtitle1" gutterBottom color="text.secondary">
         by {blog.user.firstName} {blog.user.lastName}
       </Typography>
+
       <Divider sx={{ my: 2 }} />
-      <ReactMarkdown children={blog.content} remarkPlugins={[remarkGfm]} />
+
+      <CardMedia
+        component="img"
+        sx={{
+          borderRadius: 5,
+          p: 1,
+          m: 2,
+          width: { xs: "70%", md: "100%", sm: "100%" },
+          height: "500",
+          alignContent: "center",
+          alignItems: "center",
+        }}
+        height="180"
+        image={blog.imageUrl}
+        alt={blog.title}
+      />
+
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{blog.content}</ReactMarkdown>
     </Container>
   );
 }
