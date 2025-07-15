@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://blogit-backend-xlol.onrender.com",
+    origin: "https://blog-it-app-ruby.vercel.app",
     credentials: true,
   }),
 );
