@@ -29,7 +29,7 @@ const Login: React.FC = () => {
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
     mutationFn: async (userDetails: UserDetails) => {
-      const response = await axiosInstance.post("/auth/login", userDetails);
+      const response = await axiosInstance.post("/api/auth/login", userDetails);
       console.log(response.data);
       return response.data;
     },
