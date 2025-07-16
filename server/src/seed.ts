@@ -22,7 +22,7 @@ async function main() {
         title: "First Blog",
         synopsis: "My first blog",
         content: "## Hello world in markdown!",
-        featuredImg: "https://via.placeholder.com/150",
+       imageUrl: "https://via.placeholder.com/150",
         userId: user.id,
       },
     ],

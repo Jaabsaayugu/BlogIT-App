@@ -8,11 +8,15 @@ import blogRouter from "./routes/blog.route";
 dotenv.config();
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://blog-it-app-ruby.vercel.app",
+];
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://blog-it-app-ruby.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
