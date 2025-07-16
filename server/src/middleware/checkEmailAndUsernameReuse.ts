@@ -20,11 +20,7 @@ async function checkUsernameAndEmailReuse(
         .json({ message: "Email or Username is already being used" });
       return;
     }
-    //   const userWithEmail = await client.user.findFirst({ where: { email } });
-    //   if (userWithEmail) {
-    //     res.status(400).json({ message: "Email is already being used" });
-    //     return;
-    //   }
+   
     next();
   } catch (error) {
     res.status(500).json({ message: "Database error occurred." });
