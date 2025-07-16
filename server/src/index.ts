@@ -46,8 +46,8 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin:  "https://blog-it-app-ruby.vercel.app",
-    //  origin:  "*",
+    origin: ["http://localhost:5173", "https://blog-it-app-ruby.vercel.app"],
+    methods: ["POST", "GET", "PATCH", "PUT", "DELETE"],
     credentials: true,
   }),
 );

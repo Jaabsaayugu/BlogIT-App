@@ -41,6 +41,7 @@ const Register: React.FC = () => {
       if (axios.isAxiosError(error)) {
         const message = error.response?.data?.message;
         setFormError(message || "Signup failed");
+        console.log(error)
       } else {
         setFormError("Something went Wrong! Try again Later!");
       }
