@@ -59,7 +59,9 @@ export default function BlogDetail() {
       </Typography>
 
       <Typography variant="subtitle1" gutterBottom color="text.secondary">
-        by {blog.user.firstName} {blog.user.lastName}
+        {blog.user
+          ? `by ${blog.user.firstName} ${blog.user.lastName}`
+          : "by Unknown Author"}
       </Typography>
 
       <Divider sx={{ my: 2 }} />

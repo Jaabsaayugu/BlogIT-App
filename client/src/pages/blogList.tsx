@@ -35,7 +35,7 @@ export default function BlogList() {
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        const res = await axios.get("/blogs");
+        const res = await axios.get("api/blogs");
         setBlogs(res.data);
       } catch (err) {
         console.error("Failed to fetch blogs:", err);

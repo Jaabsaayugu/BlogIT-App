@@ -20,7 +20,7 @@ async function checkUsernameAndEmailReuse(
         .json({ message: "Email or Username is already being used" });
       return;
     }
-   
+
     next();
   } catch (error) {
     res.status(500).json({ message: "Database error occurred." });

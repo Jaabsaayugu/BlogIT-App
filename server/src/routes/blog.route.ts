@@ -16,7 +16,7 @@ router.get("/", async (_req, res) => {
   res.json(blogs);
 });
 
-router.get("/:id", verifyToken, async (req, res) => {
+router.get("/blogs/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {

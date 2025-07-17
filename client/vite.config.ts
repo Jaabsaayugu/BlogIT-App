@@ -15,18 +15,18 @@ export default defineConfig({
     host: true,
     port: 5173,
     proxy: {
-      '/api': {
+      "/api": {
         target: "https://blogit-backend-xlol.onrender.com/api",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
     watch: {
-      usePolling: true
+      usePolling: true,
     },
     hmr: {
       host: "https://blog-it-app-ruby.vercel.app",
-      protocol: 'wss',
+      protocol: "wss",
     },
   },
 });

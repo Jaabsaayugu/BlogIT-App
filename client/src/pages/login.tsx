@@ -34,7 +34,7 @@ const Login: React.FC = () => {
       return response.data;
     },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       if (axios.isAxiosError(error)) {
         const message = error.response?.data?.message;
         setFormError(message || "Login failed");

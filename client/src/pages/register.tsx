@@ -34,14 +34,14 @@ const Register: React.FC = () => {
   const { isPending, mutate } = useMutation({
     mutationKey: ["signup-user"],
     mutationFn: async (newUser: User) => {
-      const response = await axiosInstance.post("/api/auth/register", newUser);
+      const response = await axiosInstance.post("/auth/register", newUser);
       return response.data;
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
         const message = error.response?.data?.message;
         setFormError(message || "Signup failed");
-        console.log(error)
+        console.log(error);
       } else {
         setFormError("Something went Wrong! Try again Later!");
       }

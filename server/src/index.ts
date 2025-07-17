@@ -31,7 +31,6 @@
 // const port = process.env.PORT || 4000;
 // app.listen(port, () => console.log(`BlogIT running on ${port} `));
 
-
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
