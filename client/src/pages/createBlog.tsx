@@ -38,7 +38,6 @@ const CreateBlog: React.FC = () => {
   return (
     <>
       <Container maxWidth="md" sx={{ bgcolor: "beige", p: 3 }}>
-        {/* <Paper sx={{ p: 4, mt: 4 }}> */}
         <Typography
           variant="h4"
           fontWeight="bold"
@@ -86,7 +85,6 @@ const CreateBlog: React.FC = () => {
             </Button>
           </Stack>
         </form>
-        {/* </Paper> */}
       </Container>
     </>
   );

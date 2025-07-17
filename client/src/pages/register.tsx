@@ -34,7 +34,7 @@ const Register: React.FC = () => {
   const { isPending, mutate } = useMutation({
     mutationKey: ["signup-user"],
     mutationFn: async (newUser: User) => {
-      const response = await axiosInstance.post("/auth/register", newUser);
+      const response = await axiosInstance.post("http://localhost:4000/api/auth/register", newUser);
       return response.data;
     },
     onError: (error) => {

@@ -45,20 +45,10 @@ export default function BlogList() {
     fetchBlogs();
   }, []);
 
-  // const uploadImage = (files: FileList) => {
-  //   console.log(files[0]);
-  // };
 
   return (
     <Container sx={{ mt: 6 }}>
-      {/* <input
-        type="file"
-        onChange={(e) => {
-          if (e.target.files) {
-            uploadImage(e.target.files);
-          }
-        }}
-      /> */}
+     
       <Typography variant="h4" fontWeight="bold" gutterBottom>
         Recent Blog Posts
       </Typography>

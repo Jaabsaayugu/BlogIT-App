@@ -74,7 +74,7 @@ const EditBlog: React.FC = () => {
               fullWidth
             />
             <TextField
-              label="Content (Markdown)"
+              label="Content "
               value={content}
               onChange={(e) => setContent(e.target.value)}
               multiline
