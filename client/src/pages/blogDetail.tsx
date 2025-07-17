@@ -54,6 +54,7 @@ export default function BlogDetail() {
 
   return (
     <Container sx={{ py: 4 }}>
+      <Typography>This is a blog</Typography>
       <Typography variant="h3" fontWeight="bold" gutterBottom>
         {blog.title}
       </Typography>

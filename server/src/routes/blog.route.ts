@@ -22,7 +22,11 @@ router.get("/blogs/:id", verifyToken, async (req, res) => {
   try {
     const blog = await prisma.blog.findUnique({
       where: { id },
-      include: { user: true },
+      include: {
+         user: {
+          select: {firstName: true, lastName: true },
+         },
+        },    
     });
 
     if (!blog || blog.isDeleted) {
